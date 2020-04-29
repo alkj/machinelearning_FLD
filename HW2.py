@@ -69,7 +69,8 @@ print(f" Fisher’s linear discriminant: {w}")
 print("\n\n")
 
 
-# ## 5. Project the test data by linear discriminant to get the class prediction
+# ## 5. Project the test data by linear discriminant
+# to get the class prediction
 # by nearest-neighbor rule and calculate the accuracy score
 # you can use accuracy_score function from sklearn.metric.accuracy_score
 print("task 5")
@@ -97,15 +98,19 @@ acc = correct/len(x_test_p)
 
 print(f"Accuracy of test-set {acc}")
 
-# ## 6. Plot the 1) projection line 2) Decision boundary and colorize the data with each class
-# ### the result should be look like this [image](https://i2.kknews.cc/SIG=fe79fb/26q1000on37o7874879n.jpg ) (Red line: projection line, Green line: Decision boundary)
+# ## 6. Plot the 1) projection line 2) Decision boundary
+# and colorize the data with each class
 
 # Divide data
 x_test_tr = np.column_stack((x_test[:, 0]*y_test, x_test[:, 1]*y_test))
 x_test_fl = np.column_stack((x_test[:, 0]*-1*(y_test-1), x_test[:, 1]*-1*(y_test-1)))
-x_test_tr_wo = np.column_stack((np.delete(x_test_tr[:, 0], np.argwhere(x_test_tr[:, 0] == 0.0)), np.delete(x_test_tr[:, 1], np.argwhere(x_test_tr[:, 1] == 0.0))))
-x_test_fl_wo = np.column_stack((np.delete(x_test_fl[:, 0], np.argwhere(x_test_fl[:, 0] == 0.0)), np.delete(x_test_fl[:, 1], np.argwhere(x_test_fl[:, 1] == 0.0))))
+x_test_tr_row1 = np.delete(x_test_tr[:, 0], np.argwhere(x_test_tr[:, 0] == 0.0))
+x_test_tr_row2 = np.delete(x_test_tr[:, 1], np.argwhere(x_test_tr[:, 1] == 0.0))
+x_test_tr_wo = np.column_stack((x_test_tr_row1, x_test_tr_row2))
 
+x_test_fl_row1 = np.delete(x_test_fl[:, 0], np.argwhere(x_test_fl[:, 0] == 0.0))
+x_test_fl_row2 = np.delete(x_test_fl[:, 1], np.argwhere(x_test_fl[:, 1] == 0.0))
+x_test_fl_wo = np.column_stack((x_test_fl_row1, x_test_fl_row2))
 
 x_test_tr_wo_in = np.dot(x_test_p[y_test == 1], w.T) + m1
 x_test_fl_wo_in = np.dot(x_test_p[y_test == 0], w.T) + m1
